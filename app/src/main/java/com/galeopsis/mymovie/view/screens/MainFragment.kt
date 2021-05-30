@@ -35,8 +35,9 @@ class MainFragment : Fragment() {
 
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, {
             renderData(it)
@@ -45,6 +46,19 @@ class MainFragment : Fragment() {
         viewModel.getDataFromLocalSource()
         binding.btnOverview.setOnClickListener { goToSearchFragment() }
     }
+
+
+    //Depricated method
+/*    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.getLiveData().observe(viewLifecycleOwner, {
+            renderData(it)
+
+        })
+        viewModel.getDataFromLocalSource()
+        binding.btnOverview.setOnClickListener { goToSearchFragment() }
+    }*/
 
     private fun goToSearchFragment() {
         activity?.supportFragmentManager?.beginTransaction()

@@ -13,6 +13,7 @@ import com.galeopsis.mymovie.viewmodel.AppState
 import com.galeopsis.mymovie.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
+
 class MainFragment : Fragment() {
 
     companion object {
@@ -31,6 +32,7 @@ class MainFragment : Fragment() {
     ): View {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,6 +43,14 @@ class MainFragment : Fragment() {
 
         })
         viewModel.getDataFromLocalSource()
+        binding.btnOverview.setOnClickListener { getOverview() }
+    }
+
+    private fun getOverview() {
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.container, MovieOverviewFragment.newInstance())
+            ?.addToBackStack(null)
+            ?.commit();
     }
 
     private fun renderData(appState: AppState) {
@@ -64,6 +74,7 @@ class MainFragment : Fragment() {
             }
         }
     }
+
 
     private fun setData(movieData: Movies) {
         binding.movieTitle.text = movieData.defaultMovie.title

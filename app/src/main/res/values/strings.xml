@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Movie</string>
+    <string name="realised">Realesed at 30/05/2021</string>
+    <string name="overview">This movie is about the movie</string>
+    <string name="rating">9.9</string>
+    <string name="the_movie_overview_page">The Movie Overview Page</string>
+    <string name="btn_overview_text">Overview</string>
+</resources>

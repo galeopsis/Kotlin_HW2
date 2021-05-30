@@ -43,12 +43,12 @@ class MainFragment : Fragment() {
 
         })
         viewModel.getDataFromLocalSource()
-        binding.btnOverview.setOnClickListener { getOverview() }
+        binding.btnOverview.setOnClickListener { goToSearchFragment() }
     }
 
-    private fun getOverview() {
+    private fun goToSearchFragment() {
         activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.container, MovieOverviewFragment.newInstance())
+            ?.replace(R.id.container, MovieSearchFragment.newInstance())
             ?.addToBackStack(null)
             ?.commit();
     }
@@ -75,10 +75,22 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun showSnackText() {
+        Snackbar
+            .make(binding.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
+            .setAction("Reload") { viewModel.getDataFromLocalSource() }
+            .show()
+    }
 
     private fun setData(movieData: Movies) {
-        binding.movieTitle.text = movieData.defaultMovie.title
-        binding.movieOverview.text = movieData.defaultMovie.toString()
+        setDefaultMovie()
+    }
+
+    private fun setDefaultMovie() {
+        binding.movieTitle.text = "Лига справедливости Зака Снайдера"
+        binding.movieRating.text = "Рейтинг: 8.5"
+        binding.releaseDate.text = getString(R.string.default_release_date)
+        binding.movieOverview.text = getString(R.string.default_overview)
     }
 
     override fun onDestroyView() {

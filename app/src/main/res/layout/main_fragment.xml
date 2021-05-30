@@ -5,68 +5,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="206dp"
+            android:layout_height="256dp"
+            android:layout_marginTop="@dimen/app_margin_top"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/poster"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/movieTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/app_margin"
             android:layout_marginTop="@dimen/app_margin_top"
-            android:textSize="35sp"
+            android:textSize="25sp"
             android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
             tools:text="The Best Movie" />
 
         <TextView
             android:id="@+id/releaseDate"
-            android:text="@string/realised"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginTop="@dimen/app_margin_top"
+            android:text="@string/realised"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Released in 2021" />
 
         <TextView
             android:id="@+id/movieOverview"
-            android:text="@string/overview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/app_margin"
-             />
+            android:layout_marginStart="@dimen/app_margin"
+            android:text="@string/overview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
+
 
         <TextView
             android:id="@+id/movieRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/app_margin"
             android:text="@string/rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/app_margin_top"
             android:textStyle="bold"
-            tools:text="+15" />
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/releaseDate"
+            tools:text="Rating: 9.9" />
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_overview"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/btn_overview_text"
-             />
-
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <FrameLayout
-        android:id="@+id/loadingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/design_default_color_on_primary"
-        android:visibility="gone"
-        tools:visibility="invisible">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
+            android:layout_margin="@dimen/app_margin"
+            android:clickable="true"
+            android:contentDescription="@string/todo"
+            android:focusable="true"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
+
+        <FrameLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/design_default_color_on_primary"
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:visibility="invisible">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

@@ -1,6 +1,5 @@
 package com.galeopsis.mymovie.view.screens
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,19 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.galeopsis.mymovie.R
 
-class MovieOverviewFragment : Fragment() {
+class MovieSearchFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MovieOverviewFragment()
+        fun newInstance() = MovieSearchFragment()
     }
 
-    private lateinit var viewModel: MovieOverviewViewModel
+    private lateinit var viewModel: MovieSearchViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.movie_overview_fragment, container, false)
+        return inflater.inflate(R.layout.movie_search_fragment, container, false)
     }
 
 

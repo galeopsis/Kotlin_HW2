@@ -5,4 +5,7 @@
     <string name="rating">9.9</string>
     <string name="the_movie_overview_page">The Movie Overview Page</string>
     <string name="btn_overview_text">Overview</string>
+    <string name="todo">todo</string>
+    <string name="default_overview">Вдохновившись самопожертвованием Супермена, Брюс Уэйн вновь обретает веру в человечество. Он заручается поддержкой новой союзницы Дианы Принс, чтобы сразиться с ещё более могущественным противником. Бэтмен и Чудо-женщина набирают команду сверхлюдей для борьбы с пробудившейся угрозой.</string>
+    <string name="default_release_date">Дата выхода: 18.03.2021 г.</string>
 </resources>

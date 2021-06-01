@@ -12,4 +12,5 @@
     <string name="released">Даты выхода:</string>
     <string name="default_movieRating">8.5</string>
     <string name="default_movieTitle">Лига справедливости Зака Снайдера</string>
+    <string name="BestMovie">The Best Movie</string>
 </resources>

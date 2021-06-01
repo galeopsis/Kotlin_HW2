@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.galeopsis.mymovie.databinding.MovieSearchFragmentBinding
 import com.galeopsis.mymovie.model.Movie
@@ -32,22 +32,36 @@ class MovieSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        val recyclerView: RecyclerView = binding.MyRecyclerView
+        recyclerView.layoutManager = GridLayoutManager(context, 3, RecyclerView.HORIZONTAL, false)
 
+        /* val defaultMovies = ArrayList<Movie>()
+
+         defaultMovies.add(
+
+             Movie(
+                 "Лига справедливости Зака Снайдера",
+                 "2",
+                 "18.03.2021 г.",
+                 "8.5",
+                 "Вдохновившись самопожертвованием Супермена, Брюс Уэйн вновь обретает веру в человечество. Он заручается поддержкой новой союзницы Дианы Принс, чтобы сразиться с ещё более могущественным противником. Бэтмен и Чудо-женщина набирают команду сверхлюдей для борьбы с пробудившейся угрозой."
+             )*/
         val movies = ArrayList<Movie>()
 
         movies.add(
             Movie(
-                "Test movie",
-                "here is the new poster path",
-                "25/05/2020",
-                "9.9",
-                "Nice movie!"
+                "Лига справедливости Зака Снайдера",
+                "2",
+                "18.03.2021 г.",
+                "8.5",
+                "Вдохновившись самопожертвованием Супермена, Брюс Уэйн вновь обретает веру в человечество. Он заручается поддержкой новой союзницы Дианы Принс, чтобы сразиться с ещё более могущественным противником. Бэтмен и Чудо-женщина набирают команду сверхлюдей для борьбы с пробудившейся угрозой."
             )
         )
+
         val adapter = RecycleViewAdapter(movies)
         recyclerView.adapter = adapter
+
+        adapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {

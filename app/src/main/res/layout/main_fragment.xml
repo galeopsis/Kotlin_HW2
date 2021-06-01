@@ -8,11 +8,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/app_margin">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="206dp"
+            android:layout_width="180dp"
             android:layout_height="256dp"
             android:layout_marginTop="@dimen/app_margin_top"
             android:contentDescription="@string/todo"
@@ -22,9 +23,9 @@
 
         <TextView
             android:id="@+id/movieTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginStart="@dimen/app_marginStart"
             android:layout_marginTop="@dimen/app_margin_top"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -33,36 +34,61 @@
             tools:text="The Best Movie" />
 
         <TextView
+            android:id="@+id/released"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/app_marginStart"
+            android:layout_marginTop="@dimen/app_margin_top"
+            android:text="@string/released"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Released:" />
+
+        <TextView
             android:id="@+id/releaseDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginStart="@dimen/app_marginStart"
             android:layout_marginTop="@dimen/app_margin_top"
-            android:text="@string/realised"
+            android:text="@string/default_release_date"
+            android:textStyle="bold"
+            android:textSize="@dimen/app_textSize"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Released in 2021" />
+            app:layout_constraintTop_toBottomOf="@id/released"
+            tools:text="05/08/2020" />
 
         <TextView
             android:id="@+id/movieOverview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginStart="@dimen/app_marginStart"
             android:text="@string/overview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/app_marginStart"
+            android:layout_marginTop="@dimen/app_margin_top"
+            android:text="@string/rating"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/releaseDate"
+            tools:text="Rating:" />
 
         <TextView
             android:id="@+id/movieRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/app_margin"
-            android:text="@string/rating"
+            android:layout_marginStart="@dimen/app_marginStart"
+            android:layout_marginTop="@dimen/app_margin_top"
+            android:text="@string/default_movieRating"
+            android:textSize="@dimen/app_textSize"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/releaseDate"
-            tools:text="Rating: 9.9" />
+            app:layout_constraintTop_toBottomOf="@+id/rating"
+            tools:text="9.9" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_overview"
@@ -83,7 +109,7 @@
             android:layout_height="match_parent"
             android:background="@color/design_default_color_on_primary"
             android:visibility="gone"
-            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp"
             tools:visibility="invisible">
 

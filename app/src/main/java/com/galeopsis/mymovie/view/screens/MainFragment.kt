@@ -47,19 +47,6 @@ class MainFragment : Fragment() {
         binding.btnOverview.setOnClickListener { goToSearchFragment() }
     }
 
-
-    //Depricated method
-/*    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner, {
-            renderData(it)
-
-        })
-        viewModel.getDataFromLocalSource()
-        binding.btnOverview.setOnClickListener { goToSearchFragment() }
-    }*/
-
     private fun goToSearchFragment() {
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.container, MovieSearchFragment.newInstance())
@@ -101,8 +88,8 @@ class MainFragment : Fragment() {
     }
 
     private fun setDefaultMovie() {
-        binding.movieTitle.text = "Лига справедливости Зака Снайдера"
-        binding.movieRating.text = "Рейтинг: 8.5"
+        binding.movieTitle.text = getString(R.string.default_movieTitle)
+        binding.movieRating.text = getString(R.string.default_movieRating)
         binding.releaseDate.text = getString(R.string.default_release_date)
         binding.movieOverview.text = getString(R.string.default_overview)
     }

@@ -15,11 +15,9 @@ class RecycleViewAdapter(val movieList: ArrayList<Movie>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie: Movie = movieList[position]
 
-        holder.textViewName.text = movie.title
-        holder.textViewName.text = movie.releaseDate
-        holder.textViewName.text = movie.rating
-        holder.textViewName.text = movie.posterPath
-        holder.textViewName.text = movie.overview
+        holder.searchFragmentTitle.text = movie.title
+        holder.searchFragmentReleaseDate.text = movie.releaseDate
+        holder.searchFragmentRating.text = movie.rating
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,10 +30,8 @@ class RecycleViewAdapter(val movieList: ArrayList<Movie>) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewName = itemView.findViewById(R.id.SearchTextView) as TextView
-        val imageViewName = itemView.findViewById(R.id.searchImageView) as ImageView
-        val textViewName2 = itemView.findViewById(R.id.SearchTextView2) as TextView
-        val imageViewName2 = itemView.findViewById(R.id.searchImageView2) as ImageView
-
+        val searchFragmentTitle = itemView.findViewById(R.id.searchFragmentTitle) as TextView
+        val searchFragmentReleaseDate = itemView.findViewById(R.id.searchFragmentReleaseDate) as TextView
+        val searchFragmentRating = itemView.findViewById(R.id.searchFragmentMovieRating) as TextView
     }
 }

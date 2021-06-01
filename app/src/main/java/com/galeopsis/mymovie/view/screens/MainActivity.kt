@@ -1,7 +1,7 @@
 package com.galeopsis.mymovie.view.screens
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.galeopsis.mymovie.R
 
 class MainActivity : AppCompatActivity() {

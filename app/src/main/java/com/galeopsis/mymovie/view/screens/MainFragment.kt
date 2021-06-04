@@ -32,7 +32,6 @@ class MainFragment : Fragment() {
     ): View {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +40,6 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, {
             renderData(it)
-
         })
         viewModel.getDataFromLocalSource()
         binding.btnOverview.setOnClickListener { goToSearchFragment() }
@@ -64,13 +62,6 @@ class MainFragment : Fragment() {
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
             }
-            /*is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
-                Snackbar
-                    .make(binding.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getDataFromLocalSource() }
-                    .show()
-            }*/
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 binding.mainView.showSnackBar(

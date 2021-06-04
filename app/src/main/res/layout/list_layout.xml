@@ -24,13 +24,12 @@
 
         <TextView
             android:id="@+id/searchFragmentTitle"
-            app:layout_constraintStart_toStartOf="@+id/searchFragmentReleaseDate"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="219dp"
-            android:layout_height="94dp"
-            android:layout_marginStart="@dimen/app_marginStart"
+            android:layout_width="211dp"
+            android:layout_height="78dp"
             android:text="@string/default_movieTitle"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="@+id/searchFragmentReleaseDate"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/searchFragmentReleased"

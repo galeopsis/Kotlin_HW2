@@ -61,26 +61,33 @@ class MainFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 setData(movieData)
             }
-
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
             }
-
-            is AppState.Error -> {
+            /*is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 Snackbar
                     .make(binding.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Reload") { viewModel.getDataFromLocalSource() }
                     .show()
+            }*/
+            is AppState.Error -> {
+                binding.loadingLayout.visibility = View.GONE
+                binding.mainView.showSnackBar(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    { viewModel.getDataFromLocalSource() })
             }
         }
     }
 
-    private fun showSnackText() {
-        Snackbar
-            .make(binding.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
-            .setAction("Reload") { viewModel.getDataFromLocalSource() }
-            .show()
+    private fun View.showSnackBar(
+        text: String,
+        actionText: String,
+        action: (View) -> Unit,
+        length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {
+        Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
     private fun setData(movieData: Movies) {

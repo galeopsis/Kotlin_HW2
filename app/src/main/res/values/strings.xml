@@ -9,8 +9,10 @@
     <string name="default_release_date">18.03.2021 г.</string>
     <string name="default_release_date2">31.03.2021 г.</string>
     <string name="default_overview2">После видения Девы Марии девушка Элис обретает способность исцеления больных. Слухи о творимых ею чудесах привлекают огромное количество людей со всех концов света. Среди них — скандальный журналист, который надеется с помощью сенсации спасти свою карьеру. Ему предстоит выяснить, является ли происходящее божественным провидением или Алисой управляют зловещие силы.</string>
-    <string name="released">Даты выхода:</string>
+    <string name="released">Дата выхода:</string>
     <string name="default_movieRating">8.5</string>
     <string name="default_movieTitle">Лига справедливости Зака Снайдера</string>
     <string name="BestMovie">The Best Movie</string>
+    <string name="error">Ошибка</string>
+    <string name="reload">Перезагрузить</string>
 </resources>

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.galeopsis.mymovie.databinding.MovieSearchFragmentBinding
 import com.galeopsis.mymovie.model.Movie
-import com.galeopsis.mymovie.model.Movies
 
 class MovieSearchFragment : Fragment() {
 
@@ -39,7 +38,7 @@ class MovieSearchFragment : Fragment() {
         val movies = ArrayList<Movie>()
 
         movies.clear()
-        for(i in 1..100) {
+        for (i in 1..100) {
 
             movies.add(
                 Movie(
@@ -56,6 +55,7 @@ class MovieSearchFragment : Fragment() {
 
         adapter.notifyDataSetChanged()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

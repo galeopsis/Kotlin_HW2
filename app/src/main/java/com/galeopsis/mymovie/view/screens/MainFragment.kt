@@ -13,6 +13,7 @@ import com.galeopsis.mymovie.viewmodel.AppState
 import com.galeopsis.mymovie.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
+
 class MainFragment : Fragment() {
 
     companion object {
@@ -33,14 +34,22 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, {
             renderData(it)
-
         })
         viewModel.getDataFromLocalSource()
+        binding.btnOverview.setOnClickListener { goToSearchFragment() }
+    }
+
+    private fun goToSearchFragment() {
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.container, MovieSearchFragment.newInstance())
+            ?.addToBackStack(null)
+            ?.commit();
     }
 
     private fun renderData(appState: AppState) {
@@ -50,24 +59,37 @@ class MainFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 setData(movieData)
             }
-
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
             }
-
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
-                Snackbar
-                    .make(binding.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getDataFromLocalSource() }
-                    .show()
+                binding.mainView.showSnackBar(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    { viewModel.getDataFromLocalSource() })
             }
         }
     }
 
+    private fun View.showSnackBar(
+        text: String,
+        actionText: String,
+        action: (View) -> Unit,
+        length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {
+        Snackbar.make(this, text, length).setAction(actionText, action).show()
+    }
+
     private fun setData(movieData: Movies) {
-        binding.movieTitle.text = movieData.defaultMovie.title
-        binding.movieOverview.text = movieData.defaultMovie.toString()
+        setDefaultMovie()
+    }
+
+    private fun setDefaultMovie() {
+        binding.movieTitle.text = getString(R.string.default_movieTitle)
+        binding.movieRating.text = getString(R.string.default_movieRating)
+        binding.releaseDate.text = getString(R.string.default_release_date)
+        binding.movieOverview.text = getString(R.string.default_overview)
     }
 
     override fun onDestroyView() {

@@ -9,8 +9,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.galeopsis.mymovie.R
 import com.galeopsis.mymovie.databinding.MainFragmentBinding
-import com.galeopsis.mymovie.model.singleMovie
-import com.galeopsis.mymovie.viewmodel.AppState
+import com.galeopsis.mymovie.model.SingleMovie
 import com.galeopsis.mymovie.viewmodel.MovieApi
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +47,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setRemoteMovieData()
+
         binding.btnOverview.setOnClickListener { goToSearchFragment() }
     }
 
@@ -58,35 +58,14 @@ class MainFragment : Fragment() {
             ?.commit()
     }
 
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                val movieData = appState.movieData
-                binding.loadingLayout.visibility = View.GONE
-                setRemoteMovieData()
-            }
-            is AppState.Loading -> {
-                binding.loadingLayout.visibility = View.VISIBLE
-            }
-            is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
-                binding.mainView.showSnackBar(
-                    getString(R.string.error),
-                    getString(R.string.reload),
-                    { setRemoteMovieData() })
-            }
-        }
-    }
-
     private fun setRemoteMovieData() {
         with(binding) {
 
+            loadingLayout.visibility = View.VISIBLE
             movieTitle.visibility = View.INVISIBLE
             releaseDate.visibility = View.INVISIBLE
             movieOverview.visibility = View.INVISIBLE
             movieRating.visibility = View.INVISIBLE
-
-            setPoster()
 
             val api = Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -96,25 +75,44 @@ class MainFragment : Fragment() {
 
             GlobalScope.launch(Dispatchers.IO) {
                 val response = api.getDataFromServer().awaitResponse()
-                if (response.isSuccessful) {
-                    val data: singleMovie = response.body()!!
-                    Log.d("My Movie", data.overview)
+                when {
+                    response.isSuccessful -> {
+                        val data: SingleMovie = response.body()!!
+                        Log.d("My Movie", data.overview)
 
-                    withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Main) {
 
-                        movieTitle.visibility = View.VISIBLE
-                        releaseDate.visibility = View.VISIBLE
-                        movieOverview.visibility = View.VISIBLE
-                        movieRating.visibility = View.VISIBLE
+                            loadingLayout.visibility = View.GONE
+                            movieTitle.visibility = View.VISIBLE
+                            releaseDate.visibility = View.VISIBLE
+                            movieOverview.visibility = View.VISIBLE
+                            movieRating.visibility = View.VISIBLE
 
-                        movieTitle.text = data.title
-                        movieRating.text = data.vote_average.toString()
-                        movieOverview.text = data.overview
-                        releaseDate.text = data.release_date
+                            movieTitle.text = data.title
+                            movieRating.text = data.vote_average.toString()
+                            movieOverview.text = data.overview
+                            releaseDate.text = data.release_date
+                            setPoster(data)
+                        }
+                    }
+                    else -> {
+                        binding.loadingLayout.visibility = View.GONE
+                        binding.mainView.showSnackBar(
+                            getString(R.string.error),
+                            getString(R.string.reload),
+                            { setRemoteMovieData() })
                     }
                 }
             }
         }
+    }
+
+    private fun setPoster(data: SingleMovie) {
+        val posterPath = IMAGE_BASE_URL + data.poster_path
+
+        Glide.with(this)
+            .load(posterPath)
+            .into(binding.imageView)
     }
 
     private fun View.showSnackBar(
@@ -126,13 +124,6 @@ class MainFragment : Fragment() {
         Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
-    private fun setPoster() {
-        val posterPath = "/mUKyopnIdWe8bqW7Q4VSiQEDaeq.jpg"
-
-        Glide.with(this)
-            .load(IMAGE_BASE_URL + posterPath)
-            .into(binding.imageView)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

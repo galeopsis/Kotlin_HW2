@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.galeopsis.mymovie.R
 import com.galeopsis.mymovie.databinding.MainFragmentBinding
 import com.galeopsis.mymovie.model.Movies
@@ -49,7 +50,7 @@ class MainFragment : Fragment() {
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.container, MovieSearchFragment.newInstance())
             ?.addToBackStack(null)
-            ?.commit();
+            ?.commit()
     }
 
     private fun renderData(appState: AppState) {
@@ -82,7 +83,17 @@ class MainFragment : Fragment() {
     }
 
     private fun setData(movieData: Movies) {
+        setPoster()
         setDefaultMovie()
+    }
+
+    private fun setPoster() {
+        val imageBaseUrl = "https://image.tmdb.org/t/p/original"
+        val posterPath = "/mUKyopnIdWe8bqW7Q4VSiQEDaeq.jpg"
+
+        Glide.with(this)
+            .load(imageBaseUrl + posterPath)
+            .into(binding.imageView)
     }
 
     private fun setDefaultMovie() {

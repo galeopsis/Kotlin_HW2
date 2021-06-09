@@ -2,9 +2,7 @@ package com.galeopsis.mymovie.view.screens
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.galeopsis.mymovie.R
@@ -20,8 +18,10 @@ import retrofit2.Retrofit
 import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 const val BASE_URL = "https://api.themoviedb.org/3/movie/"
 const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original"
+private const val PROCESS_ERROR = "Обработка ошибки"
 
 class MainFragment : Fragment() {
 
@@ -45,11 +45,31 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setHasOptionsMenu(true)
         setRemoteMovieData()
-
-        binding.btnOverview.setOnClickListener { goToSearchFragment() }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add -> {
+                Log.d("API123", "done")
+                return true
+            }
+            R.id.action_main -> {
+                Log.d("API123", "done")
+                goToSearchFragment()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+
+    }
+
 
     private fun goToSearchFragment() {
         activity?.supportFragmentManager?.beginTransaction()
@@ -66,7 +86,6 @@ class MainFragment : Fragment() {
             releaseDate.visibility = View.INVISIBLE
             movieOverview.visibility = View.INVISIBLE
             movieRating.visibility = View.INVISIBLE
-
             val api = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -96,6 +115,7 @@ class MainFragment : Fragment() {
                         }
                     }
                     else -> {
+
                         binding.loadingLayout.visibility = View.GONE
                         binding.mainView.showSnackBar(
                             getString(R.string.error),
@@ -115,6 +135,7 @@ class MainFragment : Fragment() {
             .into(binding.imageView)
     }
 
+
     private fun View.showSnackBar(
         text: String,
         actionText: String,
@@ -123,7 +144,6 @@ class MainFragment : Fragment() {
     ) {
         Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

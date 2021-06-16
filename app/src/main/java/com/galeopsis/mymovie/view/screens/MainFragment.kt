@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.galeopsis.mymovie.R
 import com.galeopsis.mymovie.databinding.MainFragmentBinding
 import com.galeopsis.mymovie.model.SingleMovie
+import com.galeopsis.mymovie.viewmodel.AppState
 import com.galeopsis.mymovie.viewmodel.MovieApi
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://api.themoviedb.org/3/movie/"
 const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original"
-private const val PROCESS_ERROR = "Обработка ошибки"
 
 class MainFragment : Fragment() {
 
@@ -29,9 +30,9 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
-
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +46,32 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        setRemoteMovieData()
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.getLiveData().observe(viewLifecycleOwner, {
+            renderData(it)
+        })
+        viewModel.getDataFromRemoteSource()
+    }
+
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                val movieData = appState.movieData
+
+                binding.loadingLayout.visibility = View.GONE
+                setRemoteMovieData(movieData)
+            }
+            is AppState.Loading -> {
+                binding.loadingLayout.visibility = View.VISIBLE
+            }
+            is AppState.Error -> {
+                binding.loadingLayout.visibility = View.GONE
+                binding.mainView.showSnackBar(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    { viewModel.getDataFromRemoteSource() })
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -54,21 +80,19 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.add -> {
                 Log.d("API123", "done")
-                return true
+                true
             }
             R.id.action_main -> {
                 Log.d("API123", "done")
                 goToSearchFragment()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
-
     }
-
 
     private fun goToSearchFragment() {
         activity?.supportFragmentManager?.beginTransaction()
@@ -77,7 +101,8 @@ class MainFragment : Fragment() {
             ?.commit()
     }
 
-    private fun setRemoteMovieData() {
+    private fun setRemoteMovieData(movieData: SingleMovie) {
+
         with(binding) {
 
             loadingLayout.visibility = View.VISIBLE
@@ -96,7 +121,6 @@ class MainFragment : Fragment() {
                 when {
                     response.isSuccessful -> {
                         val data: SingleMovie = response.body()!!
-                        Log.d("My Movie", data.overview)
 
                         withContext(Dispatchers.Main) {
 
@@ -119,7 +143,7 @@ class MainFragment : Fragment() {
                         binding.mainView.showSnackBar(
                             getString(R.string.error),
                             getString(R.string.reload),
-                            { setRemoteMovieData() })
+                            { setRemoteMovieData(movieData) })
                     }
                 }
             }
